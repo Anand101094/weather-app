@@ -1,4 +1,4 @@
-import constants from "../constant";
+import {constants} from "../constant";
 
 const initialState = {};
 
@@ -14,6 +14,7 @@ export function weatherReducer(state = initialState, action) {
       return {
         ...state,
         fetchingWeatherData: "success",
+        weatherData: action.weatherData
       };
 
     default:

@@ -1,14 +1,33 @@
 import React from "react";
+import dayjs from "dayjs";
 
-const WeatherCard = (props) => {
+const WeatherCard = ({ card, mode }) => {
+
+    const getTemp = () => {
+        const temp = card.list[0].main.temp;
+        if(mode === 'fahrenheit'){
+            let fah = ((temp - 273.15)*9/5) + 32;
+            return `${fah.toFixed(2)}F`;
+        } else{
+            return `${(temp - 273.15).toFixed(2)}C` 
+        }
+    }
+
   return (
-    <div className="weather-card">
+    <div className="w-card">
       <div className="card-panel teal">
         <span className="white-text">
-          I am a very simple card. I am good at containing small bits of
-          information. I am convenient because I require little markup to use
-          effectively. I am similar to what is called a panel in other
-          frameworks.
+
+            <span className="temp">
+                <span>Temp:</span>
+                <span>{getTemp()}</span>
+            </span>
+
+            <span className="date">
+                <span>Date:</span>
+                <span>{dayjs(card.date).format("DD MMM YY")}</span>
+            </span>
+
         </span>
       </div>
     </div>

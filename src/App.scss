@@ -4,4 +4,33 @@
         align-items: center;
         justify-content: space-evenly;
     }
+    .weather-cards {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .w-card {
+            padding: 0 24px;
+            .date,
+            .temp {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    }
+    .arrow-buttons {
+        display: flex;
+        justify-content: space-around;
+        .left-arrow,
+        .right-arrow {
+            font-size: 72px;
+            cursor: pointer;
+        }
+        .active {
+            opacity: 1;
+        }
+        .hidden {
+            opacity: 0;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import './App.scss'
 import { connect } from "react-redux";
 import weatherAction from './redux/actions/weatherActions'
 import WeatherCardCarousel from './components/WeatherCardCarousel'
+import Loader from './universal/Loader'
 
 import _ from 'lodash'
 
@@ -59,33 +60,38 @@ const App = (props) => {
   const {currentIndex, pageSize} =  settings
 
   return (
-    <div className="app center container">
-      <div className="temp-mode">
-        <p>
-          <label>
-            <input className="with-gap" name="group1" type="radio" value="celcius"
-              checked={tempMode === "celcius"}
-              onChange={(e) => setTempMode(e.target.value)}
-            />
-            <span>Celcius</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input className="with-gap" name="group1" type="radio" value="fahrenheit"
-              checked={tempMode === "fahrenheit"}
-              onChange={(e) => setTempMode(e.target.value)}
-            />
-            <span>Fahrenheit</span>
-          </label>
-        </p>
-      </div>
-      <div className="arrow-buttons">
-        <span className={`material-icons left-arrow  ${currentIndex === 0 ? 'hidden': 'acive'}`} onClick={handleLeftClick}>arrow_left</span>
-        <span className={`material-icons right-arrow ${currentIndex === weatherData.length - pageSize ? 'hidden': 'active'}`} onClick={handleRightClick}>arrow_right</span>
-      </div>
-      <WeatherCardCarousel cards={weatherData.slice(currentIndex,currentIndex+3)} mode={tempMode}/>
-    </div>
+    <React.Fragment>
+      {
+        props.fetching === 'pending' ? <Loader /> :
+        <div className="app center container">
+          <div className="temp-mode">
+            <p>
+              <label>
+                <input className="with-gap" name="group1" type="radio" value="celcius"
+                  checked={tempMode === "celcius"}
+                  onChange={(e) => setTempMode(e.target.value)}
+                />
+                <span>Celcius</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input className="with-gap" name="group1" type="radio" value="fahrenheit"
+                  checked={tempMode === "fahrenheit"}
+                  onChange={(e) => setTempMode(e.target.value)}
+                />
+                <span>Fahrenheit</span>
+              </label>
+            </p>
+          </div>
+          <div className="arrow-buttons">
+            <span className={`material-icons left-arrow  ${currentIndex === 0 ? 'hidden': 'acive'}`} onClick={handleLeftClick}>arrow_left</span>
+            <span className={`material-icons right-arrow ${currentIndex === weatherData.length - pageSize ? 'hidden': 'active'}`} onClick={handleRightClick}>arrow_right</span>
+          </div>
+          <WeatherCardCarousel cards={weatherData.slice(currentIndex,currentIndex+3)} mode={tempMode}/>
+        </div>
+      }
+    </React.Fragment>
   );
 };
 
@@ -97,7 +103,8 @@ const mapDispachToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return{
-    weatherData : state.weather.weatherData
+    weatherData : state.weather.weatherData,
+    fetching : state.weather.fetchingWeatherData
   }
 }
 

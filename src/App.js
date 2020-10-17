@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "regenerator-runtime/runtime.js";
-// import WeatherScreen from "./components/WeatherScreen";
 import './App.scss'
 import { connect } from "react-redux";
 import weatherAction from './redux/actions/weatherActions'
 import WeatherCardCarousel from './components/WeatherCardCarousel'
 
 import _ from 'lodash'
-// import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 const App = (props) => {
   const [tempMode, setTempMode] = useState("fahrenheit");
@@ -87,7 +85,6 @@ const App = (props) => {
         <span className={`material-icons right-arrow ${currentIndex === weatherData.length - pageSize ? 'hidden': 'active'}`} onClick={handleRightClick}>arrow_right</span>
       </div>
       <WeatherCardCarousel cards={weatherData.slice(currentIndex,currentIndex+3)} mode={tempMode}/>
-      {/* <WeatherScreen /> */}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import { constants } from "../constant";
 
 const weatherActions = {
-  fetchWeatherData: () => {
-    console.log(constants.FETCH_WEATHER_DATA)
+  fetchWeatherData: (payload) => {
     return {
       type: constants.FETCH_WEATHER_DATA,
+      payload
     };
   },
 };

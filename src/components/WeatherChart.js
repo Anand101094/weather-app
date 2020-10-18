@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react'
-import WeatherCard from './WeatherCard'
 
 const WeatherChart = ({hourlyData, mode}) => {
 
@@ -15,50 +14,33 @@ const WeatherChart = ({hourlyData, mode}) => {
                 labels.push(timeStamp)
                 data.push(temp)
             })
-            var ctx = document.getElementById('myChart').getContext('2d');
-    
+            var ctx = document.getElementById('myChart').getContext('2d');    
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Pink', 'Cora'],
                     labels,
                     datasets: [{
                         label: `Hourly temperature in ${mode}`,
                         data,
-                        // backgroundColor: [
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        //     'rgba(54, 162, 235, 0.2)',
-                        // ],
-                        // borderColor: [
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        // ],
-                        borderWidth: 1
-                    }]
+                        borderWidth: 1,
+                        backgroundColor:"#1776bf"
+                    }],
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
+                options:{
+                    title:{
+                        display:true,
+                        text: `Temperature in ${mode}`
+                    },
+                    legend:{
+                        display:false
+                    },
                 }
             });
         }
+
+        return(()=>{
+            if(myChart) myChart.destroy();
+        })
      
     }, [hourlyData])
 

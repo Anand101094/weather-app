@@ -1,4 +1,20 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
 .app {
+    .edit-icon {
+        padding: 0 8px;
+        cursor: pointer;
+        color: #1776bf;
+    }
+    .error {
+        margin-bottom: 16px;
+    }
     .temp-mode {
         display: flex;
         align-items: center;
@@ -14,10 +30,48 @@
             .temp {
                 display: flex;
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
             }
-            .selected {
-                border: 3px solid black;
+            .temp {
+                padding: 4px 0;
+                .avg-tmp {
+                    font-size: 20px;
+                }
+                .hmd-n-prs {
+                    margin: 8px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    .hmd,
+                    .prs {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                    }
+                    .hmd {
+                        margin: 0 16px 0 0;
+                    }
+                    .prs {
+                        margin: 0 0 0 16px;
+                    }
+                }
+            }
+            .card-panel {
+                &.selected {
+                    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.45), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+                    transition: 0.3s;
+                    border: 1px solid #444;
+                }
+                i.pe-va {
+                    font-size: 88px;
+                    padding: 4px;
+                }
+                .date {
+                    font-size: 18px;
+                    background: #fbfbfb;
+                    margin: 10px;
+                    color: #333;
+                    border-radius: 10px;
+                }
             }
         }
     }
@@ -28,6 +82,7 @@
         .right-arrow {
             font-size: 72px;
             cursor: pointer;
+            color: #1776bf;
         }
         .active {
             opacity: 1;
@@ -39,7 +94,7 @@
     .weather-chart {
         position: relative;
         height: 40vh;
-        width: 50vh;
+        width: 60vh;
         margin: auto;
     }
 }

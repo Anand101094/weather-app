@@ -4,10 +4,9 @@ import weatherApi from "../../api/weatherApi"
 
 
 function* getWeatherData(action) {
-  let response = yield weatherApi.getWeatherData();
+  let response = yield weatherApi.getWeatherData(action.payload);
   if (response.status === 200) {
     let data = yield response.json();
-    console.log(data)
     yield put({ type: "FETCH_WEATHER_DATA_SUCCESS", weatherData: data });
   } else {
     yield put({ type: "FETCH_WEATHER_DATA_FAILED" });

@@ -1,0 +1,33 @@
+.search-modal-overlay {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 99;
+    .search-input {
+        width: 500px;
+    }
+    .cross-icon {
+        font-size: 40px;
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        cursor: pointer;
+    }
+    .modal-content {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        flex-direction: column;
+        margin-top: -200px;
+        .search-btn {
+            position: relative;
+            right: 10px;
+        }
+    }
+}

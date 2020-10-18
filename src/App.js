@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from 'react-dom'
 import "regenerator-runtime/runtime.js";
 import "./App.scss";
 import { connect } from "react-redux";
 import weatherAction from "./redux/actions/weatherActions";
 import WeatherCardCarousel from "./components/WeatherCardCarousel";
 import WeatherChart from "./components/WeatherChart";
+import SearchModal from "./components/SearchModal"
 import Loader from "./universal/Loader";
 
 import _ from "lodash";
@@ -17,6 +19,7 @@ const App = (props) => {
     startIndex: 0,
     activeIndex: 1,
   });
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
 
   useEffect(() => {
     props.fetchWeatherData();
@@ -39,48 +42,33 @@ const App = (props) => {
   }, [props.weatherData]);
 
   const handleLeftClick = () => {
-    if (settings.startIndex === 0) {
-      if (settings.activeIndex === 0) return;
-      setSettings((s) => {
-        return {
-          ...s,
-          activeIndex: s.activeIndex - 1,
-        };
-      });
-      return;
-    }
-    setSettings((s) => {
-      return {
-        ...s,
-        startIndex: s.startIndex - 1,
-        activeIndex: s.activeIndex - 1,
-      };
-    });
+    let length = weatherData && weatherData.length;
+    let {activeIndex, startIndex, pageSize} = settings
+    if(activeIndex === 0 ) return;
+    let sIndex = startIndex === 0 || activeIndex === length - 1 ? startIndex : startIndex - 1
+    let aIndex = activeIndex - 1
+    setSettings({
+      ...settings,
+      startIndex: sIndex,
+      activeIndex: aIndex
+    })
   };
 
   const handleRightClick = () => {
     let length = weatherData && weatherData.length;
-    if (settings.startIndex === length - settings.pageSize) {
-      if (settings.activeIndex === length - 1) return;
-      setSettings((s) => {
-        return {
-          ...s,
-          activeIndex: s.activeIndex + 1,
-        };
-      });
-      return;
-    }
-    setSettings((s) => {
-      return {
-        ...s,
-        startIndex: s.startIndex + 1,
-        activeIndex: s.activeIndex + 1,
-      };
-    });
+    let {activeIndex, startIndex, pageSize} = settings
+    if(activeIndex === length - 1) return;
+    let sIndex = activeIndex === 0 || startIndex === length - pageSize ? startIndex : startIndex + 1
+    let aIndex = activeIndex + 1
+    setSettings({
+      ...settings,
+      activeIndex: aIndex,
+      startIndex: sIndex
+    })
   };
 
   const { startIndex, pageSize, activeIndex } = settings;
-
+  const title = props.weatherData && `${props.weatherData.city.name}, ${props.weatherData.city.country}`
   return (
     <React.Fragment>
       {props.fetching === "pending" ? (
@@ -111,18 +99,32 @@ const App = (props) => {
             <span className={`material-icons left-arrow  ${activeIndex === 0 ? "hidden" : "acive"}`} onClick={handleLeftClick} >arrow_left</span>
             <span className={`material-icons right-arrow ${ activeIndex === weatherData.length - 1 ? "hidden" : "active"}`} onClick={handleRightClick} >arrow_right</span>
           </div>
+          <h4>{title} <span className="material-icons edit-icon" onClick={()=>setIsSearchModalOpen(true)}>edit</span></h4>
+
+          {props.fetching === 'failed' ? <span className="red-text error"> City not found. Search again.  Duhhhhh!!!... </span> : null}
+
           <WeatherCardCarousel
-            cards={weatherData.slice(startIndex, startIndex + 3)}
+            cards={weatherData.slice(startIndex, startIndex + pageSize)}
             mode={tempMode}
             activeCard={weatherData[activeIndex]}
           />
 
           <WeatherChart
-            hourlyData={weatherData.slice(startIndex, startIndex + 1)}
+            hourlyData={weatherData.slice(activeIndex, activeIndex + 1)}
             mode={tempMode}
           />
         </div>
       )}
+      {
+        isSearchModalOpen ? 
+        ReactDOM.createPortal(
+          <SearchModal 
+            closeModal = {() => setIsSearchModalOpen(false)}
+          />,
+          document.getElementById('search-modal')
+        )
+        :null
+      }
     </React.Fragment>
   );
 };

@@ -1,21 +1,21 @@
 import React from "react";
 import dayjs from "dayjs";
 
-const WeatherCard = ({ card, mode }) => {
+const WeatherCard = ({ card, mode, activeCard }) => {
 
     const getTemp = () => {
         const temp = card.list[0].main.temp;
         if(mode === 'fahrenheit'){
-            let fah = ((temp - 273.15)*9/5) + 32;
-            return `${fah.toFixed(2)}F`;
+            return `${temp.toFixed(2)}F`;
         } else{
-            return `${(temp - 273.15).toFixed(2)}C` 
+          let cel = (temp - 32)*5/9;
+          return `${cel.toFixed(2)}C` 
         }
     }
 
   return (
     <div className="w-card">
-      <div className="card-panel teal">
+      <div className={`card-panel teal ${card.date === activeCard.date ? 'selected': ''}`}>
         <span className="white-text">
 
             <span className="temp">

@@ -96,8 +96,10 @@ const App = (props) => {
             </p>
           </div>
           <div className="arrow-buttons">
-            <span className={`material-icons left-arrow  ${activeIndex === 0 ? "hidden" : "acive"}`} onClick={handleLeftClick} >arrow_left</span>
-            <span className={`material-icons right-arrow ${ activeIndex === weatherData.length - 1 ? "hidden" : "active"}`} onClick={handleRightClick} >arrow_right</span>
+            <span className={`material-icons left-arrow  ${activeIndex === 0 ? "hidden" : "acive"}`} title='Previous'
+              onClick={handleLeftClick} >arrow_left</span>
+            <span className={`material-icons right-arrow ${ activeIndex === weatherData.length - 1 ? "hidden" : "active"}`} title="Next"
+              onClick={handleRightClick} >arrow_right</span>
           </div>
           <h4>{title} <span className="material-icons edit-icon" onClick={()=>setIsSearchModalOpen(true)}>edit</span></h4>
 
